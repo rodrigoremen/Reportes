@@ -1,20 +1,17 @@
-import bodyParser from "body-parser";
-import  express from "express";
-const cors = require ('cors');
+import bodyParser from 'body-parser';
+import express, { Application } from 'express';
+import cors from 'cors';
+import { userRouter } from '../modules/user/adapters/user.controller'
 
-const app = express();
-
+const app: Application = express();
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(
-    cors({
-        origin:'*'
-    })
+     cors({
+    origin: '*',
+})
 );
+app.use(express.json({ limit: '50mb' }));
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json({limit: '20mb' }));
-
-app.get('/', (req,res)=>{
-    res.send('Server running.....');
-});
-
+//App - Routes
+app.use('/api/user', userRouter);
 export default app;
